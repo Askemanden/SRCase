@@ -5,7 +5,7 @@ public class Main {
         timing(1000000);
     }
 
-    public static double[] eulerMethod(BiFunction<Double, Double, Double> func, int iterations, double step) {
+    public static double[] eulerMethod(BiFunction<Double, Double, Double> func, int iterations, double step, double x0, double y0) {
         double x=0;
         for (int i = 0; i < 200; i++) {
             x = 1 + 1;
@@ -13,7 +13,7 @@ public class Main {
         return new double[]{x};
     }
 
-    public static double[] eulerImprovedMethod(BiFunction<Double, Double, Double> func, int iterations, double step) {
+    public static double[] eulerImprovedMethod(BiFunction<Double, Double, Double> func, int iterations, double step, double x0, double y0) {
         double x=0;
         for (int i = 0; i < 200; i++) {
             x = 1 + 1;
@@ -21,7 +21,7 @@ public class Main {
         return new double[]{x};
     }
 
-    public static double[] RK4(BiFunction<Double, Double, Double> func, int iterations, double step) {
+    public static double[] RK4(BiFunction<Double, Double, Double> func, int iterations, double step, double x0, double y0) {
         double x=0;
         for (int i = 0; i < 200; i++) {
             x = 1 + 1;
@@ -30,10 +30,16 @@ public class Main {
     }
 
     public static void timing(int iterations) {
+
+    // Her begynder dummy runder
+    /**
+     * Disse er dummy runder.
+     * Disse køres for at minimere urelateret forsinkelse forsaget af ting såsom JVM's opvarmning mm.
+     */
         double RK4TimeTotalDummy = 0;
         for (int i = 0; i < 100000; i++) {
             long startRK4 = System.nanoTime();
-            RK4((x, y) -> x + y, 1, 1);
+            RK4((x, y) -> x + y, 1, 1, 0,0);
             long endRK4 = System.nanoTime();
             double RK4Time = (endRK4 - startRK4) / 1e6;
             RK4TimeTotalDummy += RK4Time;
@@ -43,7 +49,7 @@ public class Main {
         // Timing RK4
         for(int i = 0; i<iterations; i++){
             long startRK4 = System.nanoTime();
-            RK4((x, y) -> x + y, 1, 1);
+            RK4((x, y) -> x + y, 1, 1,0,0);
             long endRK4 = System.nanoTime();
             double RK4Time = (endRK4 - startRK4) / 1e6;
             RK4TimeTotal += RK4Time;
@@ -53,17 +59,18 @@ public class Main {
         for(int i = 0; i<iterations; i++){
             // Timing eulerMethod
             long startEuler = System.nanoTime();
-            eulerMethod((x, y) -> x + y, 1, 1);
+            eulerMethod((x, y) -> x + y, 1, 1,0,0);
             long endEuler = System.nanoTime();
             double eulerTime = (endEuler - startEuler) / 1e6;
             EulerTimeTotalDummy += eulerTime;
         }
+    // Her ender dummy kaldende
 
         double EulerTimeTotal = 0;
         for(int i = 0; i<iterations; i++){
             // Timing eulerMethod
             long startEuler = System.nanoTime();
-            eulerMethod((x, y) -> x + y, 1, 1);
+            eulerMethod((x, y) -> x + y, 1, 1,0,0);
             long endEuler = System.nanoTime();
             double eulerTime = (endEuler - startEuler) / 1e6;
             EulerTimeTotal += eulerTime;
@@ -74,7 +81,7 @@ public class Main {
         for(int i = 0; i < iterations; i++){
             // Timing eulerImprovedMethod
             long startEulerImproved = System.nanoTime();
-            eulerImprovedMethod((x, y) -> x + y, 1, 1);
+            eulerImprovedMethod((x, y) -> x + y, 1, 1,0,0);
             long endEulerImproved = System.nanoTime();
             double eulerImprovedTime = (endEulerImproved - startEulerImproved) / 1e6;
             eulerImprovedTimeTotalDummy+=eulerImprovedTime;
@@ -84,7 +91,7 @@ public class Main {
         for(int i = 0; i < iterations; i++){
             // Timing eulerImprovedMethod
             long startEulerImproved = System.nanoTime();
-            eulerImprovedMethod((x, y) -> x + y, 1, 1);
+            eulerImprovedMethod((x, y) -> x + y, 1, 1,0,0);
             long endEulerImproved = System.nanoTime();
             double eulerImprovedTime = (endEulerImproved - startEulerImproved) / 1e6;
             eulerImprovedTimeTotal+=eulerImprovedTime;
